@@ -1,0 +1,33 @@
+一.TodoFooter.vue
+1)变量和方法认识
+    completeSize              勾选的 todo 的数量(complete 是 true)
+    isAllCheck                所有的  todo 是否都被选择
+
+    deleteCompleteTodos()     删除选中的 todo
+
+    seleteAllTodos()          点击这个按钮，选中所有的 todo
+
+
+2)  实现的功能
+   a.当有 todo  被选中时， 右下角的删除按钮显示出来
+   b.当所有的 todo 都被选中时， 左下角的那个input 也被选中
+   c.当点击左下角的那个input, 所有的 todo 都被选中，completeSize变成todos 的长度，再点击一次，都不选中，completeSize变成0
+   d. 点击右下角的删除按钮，删除所有选中的 todo
+
+
+
+ 二. 做完TodoFooter.vue后，只要一刷新页面，页面就会变成原始的页面，这时要用到 localStorage ，刷新时，将页面保存到当前的状态
+
+    这时的所有 数据 都是从 localStorage 中读取的
+    todos: JSON.parse(window.localStorage.getItem('todo_key') || '[]')
+    因为 window.localStorage.getItem('todo_key')  读取的是 文本字符串，所以通过JSON.parse 转换一下
+
+    再通过深度监视watch, 将读取的内容 转换成字符串
+    watch: {      // 监视
+        todos: {
+            deep: true,          // 深度监视
+            handler: function(value) {
+                window.localStorage.setItem('todo_key',JSON.stringify(value))
+            }
+        }
+    },
